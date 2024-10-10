@@ -54,6 +54,7 @@ pipeline {
                     node_modules/.bin/serve -s build &
                     sleep 10
                     npx playwright test --reporter=line
+                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'playwright-report', reportTitles: '', useWrapperFileDirectly: true])
                 '''
             }
         }

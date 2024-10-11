@@ -1,5 +1,6 @@
 pipeline {
     agent any
+
     environment {
         NETLIFY_SITE_ID = '38922a4c-31eb-43f6-8e9c-a816db9e28f3'
         NETLIFY_AUTH_TOKEN = credentials('netlify-token')
@@ -49,7 +50,7 @@ pipeline {
                     }
                 }
 
-                stage('E2Elocal') {
+                stage('E2E') {
                     agent {
                         docker {
                             image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
@@ -68,12 +69,13 @@ pipeline {
 
                     post {
                         always {
-                            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'playwright-report-local', reportFiles: 'index.html', reportName: 'Playwright HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+                            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright Local', reportTitles: '', useWrapperFileDirectly: true])
                         }
                     }
                 }
             }
         }
+
         stage('Deploy') {
             agent {
                 docker {
@@ -90,8 +92,8 @@ pipeline {
                     node_modules/.bin/netlify deploy --dir=build --prod
                 '''
             }
-        
         }
+
         stage('Prod E2E') {
             agent {
                 docker {

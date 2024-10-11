@@ -101,7 +101,7 @@ pipeline {
             }
 
             environment {
-                CI_ENVIRONMENT_URL = 'https://inquisitive-baklava-c207da.netlify.app/'
+                CI_ENVIRONMENT_URL = 'https://inquisitive-baklava-c207da.netlify.app'
             }
 
             steps {
